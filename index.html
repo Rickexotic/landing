@@ -39,12 +39,17 @@
 
 html{
     scroll-behavior:smooth;
+    background:var(--bg);
+    color:var(--text);
+    transition:background 0.3s ease, color 0.3s ease;
 }
 
 body{
     font-family:Aptos, "Segoe UI", sans-serif;
     color:var(--text);
     line-height:1.7;
+    background:var(--bg);
+    transition:background 0.3s ease;
 }
 
 .container{
@@ -74,6 +79,7 @@ header{
     backdrop-filter:blur(10px);
     border-bottom:1px solid var(--border);
     z-index:1000;
+    transition:background 0.3s ease, border-color 0.3s ease;
 }
 
 .nav{
@@ -99,16 +105,25 @@ header{
     font-weight:700;
 }
 
+.nav-right{
+    display:flex;
+    align-items:center;
+    gap:16px;
+}
+
 .menu{
     display:flex;
     gap:35px;
 }
 
-    .mobile-toggle{
+.mobile-toggle{
     display:none;
     font-size:28px;
     cursor:pointer;
-    color:var(--dark);
+    color:var(--text);
+    background:none;
+    border:none;
+    padding:0;
 }
 
 @media(max-width:991px){
@@ -133,11 +148,6 @@ header{
 
         transition:max-height .3s ease;
     }
-    .nav-right{
-    display:flex;
-    align-items:center;
-    gap:16px;
-}
 
     .menu.active{
         max-height:400px;
@@ -208,17 +218,29 @@ header{
     padding:15px 30px;
     border-radius:4px;
     transition:.3s;
+    border:none;
+    cursor:pointer;
+    font-family:inherit;
 }
 
 .btn-primary{
-    background:var(--bg);
+    background:white;
     color:var(--dark);
+}
+
+.btn-primary:hover{
+    transform:translateY(-2px);
+    box-shadow:0 4px 12px rgba(0,0,0,0.15);
 }
 
 .btn-secondary{
     border:1px solid white;
     color:white;
     margin-left:10px;
+}
+
+.btn-secondary:hover{
+    background:rgba(255,255,255,0.1);
 }
 
 .section-title{
@@ -232,7 +254,7 @@ header{
 }
 
 .section-title p{
-    color:#777;
+    color:var(--muted);
 }
 
 .services-grid{
@@ -268,11 +290,13 @@ header{
 }
 
 .service-content p{
-    color:#666;
+    color:var(--muted);
 }
 
 .about{
-    background:var(--light);
+    background:var(--bg);
+    border-top:1px solid var(--border);
+    border-bottom:1px solid var(--border);
 }
 
 .about-grid{
@@ -288,7 +312,7 @@ header{
 }
 
 .about p{
-    color:#666;
+    color:var(--muted);
 }
 
 .cta{
@@ -323,8 +347,7 @@ footer{
     color:#aaa;
 }
 
-    .theme-toggle{
-
+.theme-toggle{
     width:42px;
     height:42px;
 
@@ -340,12 +363,18 @@ footer{
     justify-content:center;
 
     color:var(--text);
+    transition:transform 0.3s ease;
+}
+
+.theme-toggle:hover{
+    transform:scale(1.1);
 }
 
 .theme-toggle svg{
-
     width:22px;
     height:22px;
+    stroke-linecap:round;
+    stroke-linejoin:round;
 }
 
 #sunIcon{
@@ -406,17 +435,6 @@ footer{
         gap:15px;
         flex-wrap:wrap;
     }
-    <div class="nav-right">
-
-    <button id="themeToggle" class="theme-toggle">
-        ...
-    </button>
-
-    <div class="mobile-toggle" id="mobileToggle">
-        ...
-    </div>
-
-</div>
 
     .cta h2{
         font-size:36px;
@@ -424,6 +442,10 @@ footer{
 
     .about h2{
         font-size:32px;
+    }
+
+    .nav-right{
+        gap:8px;
     }
 
 }
@@ -443,44 +465,42 @@ footer{
 <div class="brand-name">46&2 Consulting</div>
 </div>
 
-<div class="mobile-toggle" id="mobileToggle">
-    ☰
-</div>
-
 <nav class="menu" id="menu">
     <a href="#home">Home</a>
     <a href="#services">Services</a>
     <a href="#about">About</a>
     <a href="#contact">Contact</a>
-<button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">
-
-    <!-- Moon -->
-    <svg id="moonIcon" viewBox="0 0 24 24">
-        <path
-            d="M21 12.79A9 9 0 0 1 11.21 3
-            7 7 0 1 0 21 12.79z"
-            fill="currentColor">
-        </path>
-    </svg>
-
-    <!-- Sun -->
-    <svg id="sunIcon" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="5" fill="currentColor"></circle>
-        <g stroke="currentColor" stroke-width="2">
-            <line x1="12" y1="1" x2="12" y2="4"/>
-            <line x1="12" y1="20" x2="12" y2="23"/>
-            <line x1="1" y1="12" x2="4" y2="12"/>
-            <line x1="20" y1="12" x2="23" y2="12"/>
-            <line x1="4.2" y1="4.2" x2="6.4" y2="6.4"/>
-            <line x1="17.6" y1="17.6" x2="19.8" y2="19.8"/>
-            <line x1="4.2" y1="19.8" x2="6.4" y2="17.6"/>
-            <line x1="17.6" y1="6.4" x2="19.8" y2="4.2"/>
-        </g>
-    </svg>
-
-</button>
-    
 </nav>
+
+<div class="nav-right">
+
+    <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">
+
+        <!-- Moon -->
+        <svg id="moonIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+
+        <!-- Sun -->
+        <svg id="sunIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+
+    </button>
+
+    <div class="mobile-toggle" id="mobileToggle">
+        ☰
+    </div>
+
+</div>
 
 </div>
 
@@ -696,74 +716,52 @@ companies, entrepreneurs and investors.
 
 <script>
 
-const mobileToggle =
-document.getElementById("mobileToggle");
-
-const menu =
-document.getElementById("menu");
+const mobileToggle = document.getElementById("mobileToggle");
+const menu = document.getElementById("menu");
 
 mobileToggle.addEventListener("click", () => {
     menu.classList.toggle("active");
 });
 
-document.querySelectorAll(".menu a")
-.forEach(link => {
-
+document.querySelectorAll(".menu a").forEach(link => {
     link.addEventListener("click", () => {
         menu.classList.remove("active");
     });
-
 });
 
 </script>
+
 <script>
 
-const themeToggle =
-document.getElementById('themeToggle');
+const themeToggle = document.getElementById('themeToggle');
+const html = document.documentElement;
 
-const currentTheme =
-localStorage.getItem('theme');
+// Check for saved theme preference or default to light mode
+const currentTheme = localStorage.getItem('theme') || 'light';
 
-if(currentTheme){
-
-    document.documentElement.setAttribute(
-        'data-theme',
-        currentTheme
-    );
-
+if(currentTheme === 'dark'){
+    html.setAttribute('data-theme', 'dark');
 }
 
-themeToggle.addEventListener('click',()=>{
-
-    const theme =
-    document.documentElement.getAttribute('data-theme');
-
+// Theme toggle click handler
+themeToggle.addEventListener('click', () => {
+    const theme = html.getAttribute('data-theme');
+    
     if(theme === 'dark'){
-
-        document.documentElement.removeAttribute(
-            'data-theme'
-        );
-
-        localStorage.setItem(
-            'theme',
-            'light'
-        );
-
-    }else{
-
-        document.documentElement.setAttribute(
-            'data-theme',
-            'dark'
-        );
-
-        localStorage.setItem(
-            'theme',
-            'dark'
-        );
-
+        html.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+    } else {
+        html.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
     }
-
 });
+
+// Respect system preference if no saved theme
+if(!localStorage.getItem('theme')){
+    if(window.matchMedia('(prefers-color-scheme: dark)').matches){
+        html.setAttribute('data-theme', 'dark');
+    }
+}
 
 </script>
     
