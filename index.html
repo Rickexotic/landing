@@ -115,6 +115,54 @@ header{
     gap:35px;
 }
 
+.menu-item{
+    position:relative;
+}
+
+.menu-item > a{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    color:var(--text);
+    font-size:15px;
+}
+
+.dropdown{
+    position:absolute;
+    top:100%;
+    left:0;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:4px;
+    min-width:200px;
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.3s ease;
+    z-index:999;
+    box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}
+
+.menu-item:hover .dropdown{
+    max-height:300px;
+}
+
+.dropdown a{
+    display:block;
+    padding:12px 20px;
+    color:var(--text);
+    font-size:14px;
+    transition:background 0.2s;
+    border-bottom:1px solid var(--border);
+}
+
+.dropdown a:last-child{
+    border-bottom:none;
+}
+
+.dropdown a:hover{
+    background:var(--border);
+}
+
 .mobile-toggle{
     display:none;
     font-size:28px;
@@ -148,11 +196,32 @@ header{
     }
 
     .menu.active{
-        max-height:400px;
+        max-height:600px;
     }
 
     .menu a{
         padding:18px 30px;
+    }
+
+    .dropdown{
+        position:static;
+        border:none;
+        background:transparent;
+        box-shadow:none;
+        max-height:0;
+    }
+
+    .menu-item:hover .dropdown{
+        max-height:300px;
+    }
+
+    .dropdown a{
+        padding:12px 50px;
+        border-bottom:none;
+    }
+
+    .dropdown a:hover{
+        background:var(--border);
     }
 
     .nav-right{
@@ -286,6 +355,7 @@ header{
     overflow:hidden;
     background:var(--card);
     transition:.3s;
+    cursor:pointer;
 }
 
 .service-card:hover{
@@ -525,7 +595,15 @@ footer{
 
 <nav class="menu" id="menu">
     <a href="#home">Home</a>
-    <a href="#services">Services</a>
+    <div class="menu-item">
+        <a href="#services">Services <span>▼</span></a>
+        <div class="dropdown">
+            <a href="corporate-finance.html">Corporate Finance</a>
+            <a href="#ma-advisory">M&A Advisory</a>
+            <a href="#capital-raising">Capital Raising</a>
+            <a href="#wealth-planning">Wealth Planning</a>
+        </div>
+    </div>
     <a href="#about">About</a>
     <a href="#contact">Contact</a>
 </nav>
@@ -753,7 +831,7 @@ companies, entrepreneurs and investors.
 
 <h3>Services</h3>
 
-<a href="#">Corporate Finance</a>
+<a href="corporate-finance.html">Corporate Finance</a>
 <a href="#">M&A Advisory</a>
 <a href="#">Capital Raising</a>
 <a href="#">Wealth Planning</a>
