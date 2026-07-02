@@ -187,8 +187,8 @@ header{
 
 [data-theme="dark"] .hero-bg{
     mix-blend-mode:normal;
-    opacity:1;
-    filter:brightness(1.3) contrast(1.1);
+    opacity:0.7;
+    filter:brightness(0.6) contrast(0.8);
 }
 
 .hero::before{
@@ -206,8 +206,8 @@ header{
 [data-theme="dark"] .hero::before{
     background:linear-gradient(
       to right,
-      rgba(0,0,0,.15),
-      rgba(0,0,0,.0)
+      rgba(0,0,0,.60),
+      rgba(0,0,0,.40)
     );
 }
 
@@ -216,6 +216,10 @@ header{
     z-index:2;
     color:white;
     max-width:700px;
+}
+
+[data-theme="dark"] .hero-content{
+    color:#1a1a1a;
 }
 
 .hero-content h1{
@@ -228,6 +232,10 @@ header{
     font-size:22px;
     color:rgba(255,255,255,.85);
     margin-bottom:35px;
+}
+
+[data-theme="dark"] .hero-content p{
+    color:rgba(26,26,26,.95);
 }
 
 .btn{
@@ -256,8 +264,17 @@ header{
     margin-left:10px;
 }
 
+[data-theme="dark"] .btn-secondary{
+    border:1px solid #1a1a1a;
+    color:#1a1a1a;
+}
+
 .btn-secondary:hover{
     background:rgba(255,255,255,0.1);
+}
+
+[data-theme="dark"] .btn-secondary:hover{
+    background:rgba(26,26,26,0.1);
 }
 
 .section-title{
