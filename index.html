@@ -400,6 +400,46 @@ footer{
     display:block;
 }
 
+.scroll-to-top{
+    position:fixed;
+    bottom:30px;
+    right:30px;
+    width:50px;
+    height:50px;
+    background:var(--dark);
+    color:white;
+    border:none;
+    border-radius:50%;
+    cursor:pointer;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:999;
+    transition:all 0.3s ease;
+    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+}
+
+.scroll-to-top:hover{
+    transform:translateY(-3px);
+    box-shadow:0 6px 16px rgba(0,0,0,0.25);
+}
+
+.scroll-to-top.show{
+    display:flex;
+}
+
+.scroll-to-top svg{
+    width:24px;
+    height:24px;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+
+[data-theme="dark"] .scroll-to-top{
+    background:white;
+    color:var(--dark);
+}
+
 @media(max-width:991px){
 
     .hero{
@@ -457,6 +497,13 @@ footer{
 
     .nav-right{
         gap:8px;
+    }
+
+    .scroll-to-top{
+        bottom:20px;
+        right:20px;
+        width:45px;
+        height:45px;
     }
 
 }
@@ -725,6 +772,12 @@ companies, entrepreneurs and investors.
 
 </footer>
 
+<button id="scrollToTop" class="scroll-to-top" aria-label="Scroll to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+</button>
+
 <script>
 
 const mobileToggle = document.getElementById("mobileToggle");
@@ -773,6 +826,29 @@ if(!localStorage.getItem('theme')){
         html.setAttribute('data-theme', 'dark');
     }
 }
+
+</script>
+
+<script>
+
+const scrollToTopBtn = document.getElementById("scrollToTop");
+
+// Show/hide button based on scroll position
+window.addEventListener("scroll", () => {
+    if(window.scrollY > 300){
+        scrollToTopBtn.classList.add("show");
+    } else {
+        scrollToTopBtn.classList.remove("show");
+    }
+});
+
+// Scroll to top on button click
+scrollToTopBtn.addEventListener("click", () => {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+});
 
 </script>
     
