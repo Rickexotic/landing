@@ -185,6 +185,11 @@ header{
     opacity:0.85;
 }
 
+[data-theme="dark"] .hero-bg{
+    mix-blend-mode:screen;
+    opacity:1;
+}
+
 .hero::before{
     content:'';
     position:absolute;
@@ -195,6 +200,14 @@ header{
       rgba(0,0,0,.10)
     );
     z-index:1;
+}
+
+[data-theme="dark"] .hero::before{
+    background:linear-gradient(
+      to right,
+      rgba(0,0,0,.30),
+      rgba(0,0,0,.0)
+    );
 }
 
 .hero-content{
