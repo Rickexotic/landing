@@ -10,7 +10,7 @@
   display:flex;
   justify-content:center;
   align-items:center;
-  padding:2rem 0;
+  padding:clamp(1rem, 3vw, 2rem) 0;
 }
 .hp12c{
   width:470px;
@@ -21,12 +21,12 @@
   border:1px solid rgba(255,255,255,.2);
   box-shadow:0 35px 60px rgba(0,0,0,.55),0 10px 20px rgba(0,0,0,.35),inset 0 2px 2px rgba(255,255,255,.35),inset 0 -3px 8px rgba(0,0,0,.25);
 }
-.hp12c .header{display:flex;justify-content:space-between;margin-bottom:15px;}
-.hp12c .logo{font-size:34px;font-weight:bold;color:#111;}
+.hp12c .header{display:flex;justify-content:space-between;gap:12px;margin-bottom:15px;}
+.hp12c .logo{font-size:34px;font-weight:bold;color:#111;line-height:1;}
 .hp12c .logo span{color:#0055a8;}
-.hp12c .model{text-align:right;font-size:12px;font-weight:bold;color:#333;}
+.hp12c .model{text-align:right;font-size:12px;font-weight:bold;color:#333;line-height:1.2;}
 .hp12c .display{background:linear-gradient(180deg,#d8e4bc 0%,#bac592 100%);border:4px solid #666;border-radius:8px;padding:12px;box-shadow:inset 0 3px 8px rgba(0,0,0,.35),inset 0 -3px 2px rgba(255,255,255,.25),0 2px 4px rgba(0,0,0,.3);margin-bottom:15px;}
-.hp12c .screen{font-family:Courier New,monospace;font-size:36px;text-align:right;min-height:46px;color:#222;font-weight:bold;}
+.hp12c .screen{font-family:Courier New,monospace;font-size:36px;text-align:right;min-height:46px;color:#222;font-weight:bold;word-break:break-all;}
 .hp12c .config{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px;}
 .hp12c label{display:block;font-size:12px;margin-bottom:5px;font-weight:bold;color:#111;}
 .hp12c input,.hp12c select{width:100%;padding:8px;border:none;border-radius:5px;}
@@ -46,6 +46,43 @@
 .hp12c .pressed{animation:hpClick .12s ease;}
 @keyframes lcdFlash{0%{filter:brightness(1);}50%{filter:brightness(1.4);}100%{filter:brightness(1);}}
 .hp12c .lcd-flash{animation:lcdFlash .25s ease;}
+
+@media (max-width: 640px){
+  main.container{padding:1.25rem 0 !important;}
+  .hp12c-wrapper{padding:0.5rem 0 1rem;}
+  .hp12c{padding:14px;border-radius:16px;}
+  .hp12c .header{margin-bottom:10px;}
+  .hp12c .logo{font-size:28px;}
+  .hp12c .model{font-size:11px;}
+  .hp12c .screen{font-size:28px;min-height:38px;}
+  .hp12c .config{grid-template-columns:1fr;gap:8px;}
+  .hp12c .keyboard{gap:6px;}
+  .hp12c button{height:50px;font-size:16px;}
+  .hp12c .result{font-size:14px;line-height:1.45;padding:10px;}
+  .hp12c .help{font-size:11px;}
+}
+
+body.dark-mode .hp12c{
+  background:linear-gradient(180deg,#5b4e35 0%,#463b28 100%);
+  border-color:rgba(255,255,255,.12);
+  box-shadow:0 18px 35px rgba(0,0,0,.55),0 8px 16px rgba(0,0,0,.35),inset 0 1px 1px rgba(255,255,255,.08),inset 0 -3px 8px rgba(0,0,0,.35);
+}
+body.dark-mode .hp12c .logo,
+body.dark-mode .hp12c label,
+body.dark-mode .hp12c .result,
+body.dark-mode .hp12c .help,
+body.dark-mode .hp12c .model{color:#f3f4f6;}
+body.dark-mode .hp12c .display{
+  background:linear-gradient(180deg,#cfd9b4 0%,#aeb88e 100%);
+  border-color:#5a5f50;
+}
+body.dark-mode .hp12c .screen{color:#151515;}
+body.dark-mode .hp12c input,
+body.dark-mode .hp12c select{
+  background:#f8fafc;
+  color:#0f172a;
+}
+body.dark-mode .hp12c .result{background:rgba(0,0,0,.22);}
 </style>
 </head>
 <body>
@@ -158,6 +195,16 @@
     </div>
   </div>
 </main>
+
+<button id="assistantButton" class="assistant-button" type="button" aria-label="Open assistant">
+  <img src="images.jpg" alt="Assistant icon">
+</button>
+
+<button id="scrollToTop" class="scroll-to-top" type="button" aria-label="Scroll to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+    <polyline points="18 15 12 9 6 15"></polyline>
+  </svg>
+</button>
 
 <script>
 let valor = "";
