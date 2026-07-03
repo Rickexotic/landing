@@ -6,6 +6,440 @@
 <title>46&2 Consulting</title>
 <link rel="stylesheet" href="styles.css">
 </head>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HP 12C Platinum - Honorarios Chile</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;background:#101010;min-height:100vh;display:flex;justify-content:center;align-items:center;
+  font-family:Arial,Helvetica,sans-serif
+}
+body::after{
+  content:"";position:fixed;width:520px;height:80px;left:50%;bottom:calc(50% - 290px);transform:translateX(-50%);z-index:-1;
+  background:radial-gradient(ellipse,rgba(0,0,0,.45) 0%,rgba(0,0,0,0) 75%)
+}
+.hp12c{
+  width:470px;background:linear-gradient(180deg,#c1ad80 0%,#ab9464 100%);border-radius:20px;padding:20px;
+  border:1px solid rgba(255,255,255,.2);
+  box-shadow:0 35px 60px rgba(0,0,0,.55),0 10px 20px rgba(0,0,0,.35),inset 0 2px 2px rgba(255,255,255,.35),inset 0 -3px 8px rgba(0,0,0,.25)
+}
+.header{display:flex;justify-content:space-between;margin-bottom:15px}
+.logo{font-size:34px;font-weight:bold;color:#111}
+.logo span{color:#0055a8}
+.model{text-align:right;font-size:12px;font-weight:bold;color:#333}
+
+.display{
+  background:linear-gradient(180deg,#d8e4bc 0%,#bac592 100%);
+  border:4px solid #666;border-radius:8px;padding:10px;height:135px;margin-bottom:15px;
+  box-shadow:inset 0 3px 8px rgba(0,0,0,.35),inset 0 -3px 2px rgba(255,255,255,.25),0 2px 4px rgba(0,0,0,.3);
+  display:flex;flex-direction:column;justify-content:space-between
+}
+.screen-line{
+  font-family:"Courier New",monospace;font-size:18px;text-align:right;min-height:22px;color:#334;opacity:.9;overflow:hidden;white-space:nowrap
+}
+.screen-result{
+  font-family:"Courier New",monospace;font-size:24px;font-weight:bold;text-align:right;color:#111;min-height:35px
+}
+
+.config{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px}
+label{display:block;font-size:12px;margin-bottom:5px;font-weight:bold}
+input,select{width:100%;padding:8px;border:none;border-radius:5px}
+.keyboard{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+
+button{
+  height:56px;border:none;border-radius:8px;cursor:pointer;position:relative;overflow:hidden;
+  font-size:18px;font-weight:bold;transition:transform .08s ease,box-shadow .08s ease,filter .15s ease
+}
+button:hover{transform:translateY(-2px);filter:brightness(1.08)}
+button:active{transform:translateY(4px) scale(.97)}
+button::before{
+  content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);transition:left .4s ease
+}
+button:hover::before{left:130%}
+
+.black{color:#fff;background:linear-gradient(180deg,#3a3a3a,#171717);box-shadow:0 5px 0 #0b0b0b,0 10px 12px rgba(0,0,0,.35)}
+.blue{color:#fff;background:linear-gradient(180deg,#1670d4,#004b96);box-shadow:0 5px 0 #00356c,0 10px 12px rgba(0,0,0,.35)}
+.orange{color:#fff;background:linear-gradient(180deg,#ee8f34,#c05d05);box-shadow:0 5px 0 #8d4200,0 10px 12px rgba(0,0,0,.35)}
+.gray{color:#222;background:linear-gradient(180deg,#f5f5f5,#d0d0d0);box-shadow:0 5px 0 #999,0 10px 12px rgba(0,0,0,.25)}
+
+.help{margin-top:10px;font-size:12px;color:#222}
+
+@keyframes hpClick{0%{transform:translateY(0)}50%{transform:translateY(5px)}100%{transform:translateY(0)}}
+.pressed{animation:hpClick .12s ease}
+@keyframes lcdFlash{0%{filter:brightness(1)}50%{filter:brightness(1.4)}100%{filter:brightness(1)}}
+.lcd-flash{animation:lcdFlash .25s ease}
+</style>
+</head>
+<body>
+
+<div class="hp12c">
+  <div class="header">
+    <div class="logo">HP <span>12C</span></div>
+    <div class="model">PLATINUM<br />HONORARIOS CHILE</div>
+  </div>
+
+  <div class="display">
+    <div id="line1" class="screen-line"></div>
+    <div id="line2" class="screen-line"></div>
+    <div id="line3" class="screen-line"></div>
+    <div id="line4" class="screen-result">0</div>
+  </div>
+
+  <div class="config">
+    <div>
+      <label>Modo</label>
+      <select id="tipo">
+        <option value="bruto">Bruto → Líquido</option>
+        <option value="liquido">Líquido → Bruto</option>
+      </select>
+    </div>
+    <div>
+      <label>Retención (%)</label>
+      <input id="retencion" type="number" step="0.1" value="14.5" />
+    </div>
+  </div>
+
+  <div class="keyboard">
+    <button class="orange" onclick="clearAll()">CLX</button>
+    <button class="orange" onclick="backspace()">←</button>
+    <button class="blue" onclick="toggleSign()">CHS</button>
+    <button class="blue" onclick="calcularHonorarios()">HON</button>
+
+    <button class="black" onclick="agrega('7')">7</button>
+    <button class="black" onclick="agrega('8')">8</button>
+    <button class="black" onclick="agrega('9')">9</button>
+    <button class="gray" onclick="agrega('000')">000</button>
+
+    <button class="black" onclick="agrega('4')">4</button>
+    <button class="black" onclick="agrega('5')">5</button>
+    <button class="black" onclick="agrega('6')">6</button>
+    <button class="gray" onclick="agrega('.')">.</button>
+
+    <button class="black" onclick="agrega('1')">1</button>
+    <button class="black" onclick="agrega('2')">2</button>
+    <button class="black" onclick="agrega('3')">3</button>
+    <button class="blue" onclick="calcularHonorarios()">=</button>
+
+    <button class="black" onclick="agrega('0')">0</button>
+    <button class="blue" onclick="copiar()">COPY</button>
+    <button class="blue" onclick="window.print()">PRINT</button>
+    <button class="orange" onclick="calcularHonorarios()">ENTER</button>
+  </div>
+
+  <div class="help">Teclado: 0-9 · . · Enter · Backspace · Esc · -</div>
+</div>
+
+<script>
+let valor = "";
+const line1 = document.getElementById("line1");
+const line2 = document.getElementById("line2");
+const line3 = document.getElementById("line3");
+const line4 = document.getElementById("line4");
+
+function actualizar() {
+  line1.textContent = "HONORARIOS CL";
+  line2.textContent = "";
+  line3.textContent = valor === "" ? "" : valor;
+  line4.textContent = valor === "" ? "0" : valor;
+}
+
+function agrega(tecla) {
+  if (tecla === ".") {
+    if (valor.includes(".")) return;
+    valor = valor === "" ? "0." : valor + ".";
+  } else {
+    valor += tecla;
+  }
+  actualizar();
+}
+
+function clearAll() { valor = ""; actualizar(); }
+function backspace() { valor = valor.slice(0,-1); actualizar(); }
+function toggleSign() { if (valor==="") return; valor = (Number(valor) * -1).toString(); actualizar(); }
+
+function moneda(v) {
+  return new Intl.NumberFormat("es-CL",{style:"currency",currency:"CLP",maximumFractionDigits:0}).format(v);
+}
+
+function calcularHonorarios() {
+  const monto = Number(valor);
+  if (isNaN(monto) || monto <= 0) {
+    line1.textContent = "ERROR";
+    line2.textContent = "Ingrese monto";
+    line3.textContent = "válido";
+    line4.textContent = "0";
+    return;
+  }
+
+  const tasa = Number(document.getElementById("retencion").value) / 100;
+  const modo = document.getElementById("tipo").value;
+
+  let bruto, liquido, retenido;
+  if (modo === "bruto") {
+    bruto = monto; retenido = bruto * tasa; liquido = bruto - retenido;
+  } else {
+    liquido = monto; bruto = liquido / (1 - tasa); retenido = bruto - liquido;
+  }
+
+  line4.classList.remove("lcd-flash"); void line4.offsetWidth; line4.classList.add("lcd-flash");
+
+  line1.textContent = modo === "bruto" ? "BRUTO → LIQUIDO" : "LIQUIDO → BRUTO";
+  line2.textContent = "RET " + (tasa * 100).toFixed(1) + "%";
+  line3.textContent = "BRUTO " + Math.round(bruto).toLocaleString("es-CL");
+  line4.textContent = "LIQ " + Math.round(liquido).toLocaleString("es-CL");
+}
+
+function copiar() {
+  const text = [line1.textContent, line2.textContent, line3.textContent, line4.textContent].join("\n");
+  navigator.clipboard.writeText(text);
+  alert("Resultado copiado");
+}
+
+document.addEventListener("keydown", function(e){
+  const k = e.key;
+  if(/^[0-9]$/.test(k)){ agrega(k); e.preventDefault(); return; }
+  if(k==="." || k===","){ agrega("."); e.preventDefault(); return; }
+  if(k==="Enter"){ calcularHonorarios(); e.preventDefault(); return; }
+  if(k==="Escape"){ clearAll(); e.preventDefault(); return; }
+  if(k==="Backspace"){ backspace(); e.preventDefault(); return; }
+  if(k==="-"){ toggleSign(); e.preventDefault(); return; }
+});
+
+document.querySelectorAll("button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    btn.classList.remove("pressed"); void btn.offsetWidth; btn.classList.add("pressed");
+  });
+});
+
+actualizar();
+</script>
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HP 12C Platinum - Honorarios Chile</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;background:#101010;min-height:100vh;display:flex;justify-content:center;align-items:center;
+  font-family:Arial,Helvetica,sans-serif
+}
+body::after{
+  content:"";position:fixed;width:520px;height:80px;left:50%;bottom:calc(50% - 290px);transform:translateX(-50%);z-index:-1;
+  background:radial-gradient(ellipse,rgba(0,0,0,.45) 0%,rgba(0,0,0,0) 75%)
+}
+.hp12c{
+  width:470px;background:linear-gradient(180deg,#c1ad80 0%,#ab9464 100%);border-radius:20px;padding:20px;
+  border:1px solid rgba(255,255,255,.2);
+  box-shadow:0 35px 60px rgba(0,0,0,.55),0 10px 20px rgba(0,0,0,.35),inset 0 2px 2px rgba(255,255,255,.35),inset 0 -3px 8px rgba(0,0,0,.25)
+}
+.header{display:flex;justify-content:space-between;margin-bottom:15px}
+.logo{font-size:34px;font-weight:bold;color:#111}
+.logo span{color:#0055a8}
+.model{text-align:right;font-size:12px;font-weight:bold;color:#333}
+
+.display{
+  background:linear-gradient(180deg,#d8e4bc 0%,#bac592 100%);
+  border:4px solid #666;border-radius:8px;padding:10px;height:135px;margin-bottom:15px;
+  box-shadow:inset 0 3px 8px rgba(0,0,0,.35),inset 0 -3px 2px rgba(255,255,255,.25),0 2px 4px rgba(0,0,0,.3);
+  display:flex;flex-direction:column;justify-content:space-between
+}
+.screen-line{
+  font-family:"Courier New",monospace;font-size:18px;text-align:right;min-height:22px;color:#334;opacity:.9;overflow:hidden;white-space:nowrap
+}
+.screen-result{
+  font-family:"Courier New",monospace;font-size:24px;font-weight:bold;text-align:right;color:#111;min-height:35px
+}
+
+.config{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px}
+label{display:block;font-size:12px;margin-bottom:5px;font-weight:bold}
+input,select{width:100%;padding:8px;border:none;border-radius:5px}
+.keyboard{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+
+button{
+  height:56px;border:none;border-radius:8px;cursor:pointer;position:relative;overflow:hidden;
+  font-size:18px;font-weight:bold;transition:transform .08s ease,box-shadow .08s ease,filter .15s ease
+}
+button:hover{transform:translateY(-2px);filter:brightness(1.08)}
+button:active{transform:translateY(4px) scale(.97)}
+button::before{
+  content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);transition:left .4s ease
+}
+button:hover::before{left:130%}
+
+.black{color:#fff;background:linear-gradient(180deg,#3a3a3a,#171717);box-shadow:0 5px 0 #0b0b0b,0 10px 12px rgba(0,0,0,.35)}
+.blue{color:#fff;background:linear-gradient(180deg,#1670d4,#004b96);box-shadow:0 5px 0 #00356c,0 10px 12px rgba(0,0,0,.35)}
+.orange{color:#fff;background:linear-gradient(180deg,#ee8f34,#c05d05);box-shadow:0 5px 0 #8d4200,0 10px 12px rgba(0,0,0,.35)}
+.gray{color:#222;background:linear-gradient(180deg,#f5f5f5,#d0d0d0);box-shadow:0 5px 0 #999,0 10px 12px rgba(0,0,0,.25)}
+
+.help{margin-top:10px;font-size:12px;color:#222}
+
+@keyframes hpClick{0%{transform:translateY(0)}50%{transform:translateY(5px)}100%{transform:translateY(0)}}
+.pressed{animation:hpClick .12s ease}
+@keyframes lcdFlash{0%{filter:brightness(1)}50%{filter:brightness(1.4)}100%{filter:brightness(1)}}
+.lcd-flash{animation:lcdFlash .25s ease}
+</style>
+</head>
+<body>
+
+<div class="hp12c">
+  <div class="header">
+    <div class="logo">HP <span>12C</span></div>
+    <div class="model">PLATINUM<br />HONORARIOS CHILE</div>
+  </div>
+
+  <div class="display">
+    <div id="line1" class="screen-line"></div>
+    <div id="line2" class="screen-line"></div>
+    <div id="line3" class="screen-line"></div>
+    <div id="line4" class="screen-result">0</div>
+  </div>
+
+  <div class="config">
+    <div>
+      <label>Modo</label>
+      <select id="tipo">
+        <option value="bruto">Bruto → Líquido</option>
+        <option value="liquido">Líquido → Bruto</option>
+      </select>
+    </div>
+    <div>
+      <label>Retención (%)</label>
+      <input id="retencion" type="number" step="0.1" value="14.5" />
+    </div>
+  </div>
+
+  <div class="keyboard">
+    <button class="orange" onclick="clearAll()">CLX</button>
+    <button class="orange" onclick="backspace()">←</button>
+    <button class="blue" onclick="toggleSign()">CHS</button>
+    <button class="blue" onclick="calcularHonorarios()">HON</button>
+
+    <button class="black" onclick="agrega('7')">7</button>
+    <button class="black" onclick="agrega('8')">8</button>
+    <button class="black" onclick="agrega('9')">9</button>
+    <button class="gray" onclick="agrega('000')">000</button>
+
+    <button class="black" onclick="agrega('4')">4</button>
+    <button class="black" onclick="agrega('5')">5</button>
+    <button class="black" onclick="agrega('6')">6</button>
+    <button class="gray" onclick="agrega('.')">.</button>
+
+    <button class="black" onclick="agrega('1')">1</button>
+    <button class="black" onclick="agrega('2')">2</button>
+    <button class="black" onclick="agrega('3')">3</button>
+    <button class="blue" onclick="calcularHonorarios()">=</button>
+
+    <button class="black" onclick="agrega('0')">0</button>
+    <button class="blue" onclick="copiar()">COPY</button>
+    <button class="blue" onclick="window.print()">PRINT</button>
+    <button class="orange" onclick="calcularHonorarios()">ENTER</button>
+  </div>
+
+  <div class="help">Teclado: 0-9 · . · Enter · Backspace · Esc · -</div>
+</div>
+
+<script>
+let valor = "";
+const line1 = document.getElementById("line1");
+const line2 = document.getElementById("line2");
+const line3 = document.getElementById("line3");
+const line4 = document.getElementById("line4");
+
+function actualizar() {
+  line1.textContent = "HONORARIOS CL";
+  line2.textContent = "";
+  line3.textContent = valor === "" ? "" : valor;
+  line4.textContent = valor === "" ? "0" : valor;
+}
+
+function agrega(tecla) {
+  if (tecla === ".") {
+    if (valor.includes(".")) return;
+    valor = valor === "" ? "0." : valor + ".";
+  } else {
+    valor += tecla;
+  }
+  actualizar();
+}
+
+function clearAll() { valor = ""; actualizar(); }
+function backspace() { valor = valor.slice(0,-1); actualizar(); }
+function toggleSign() { if (valor==="") return; valor = (Number(valor) * -1).toString(); actualizar(); }
+
+function moneda(v) {
+  return new Intl.NumberFormat("es-CL",{style:"currency",currency:"CLP",maximumFractionDigits:0}).format(v);
+}
+
+function calcularHonorarios() {
+  const monto = Number(valor);
+  if (isNaN(monto) || monto <= 0) {
+    line1.textContent = "ERROR";
+    line2.textContent = "Ingrese monto";
+    line3.textContent = "válido";
+    line4.textContent = "0";
+    return;
+  }
+
+  const tasa = Number(document.getElementById("retencion").value) / 100;
+  const modo = document.getElementById("tipo").value;
+
+  let bruto, liquido, retenido;
+  if (modo === "bruto") {
+    bruto = monto; retenido = bruto * tasa; liquido = bruto - retenido;
+  } else {
+    liquido = monto; bruto = liquido / (1 - tasa); retenido = bruto - liquido;
+  }
+
+  line4.classList.remove("lcd-flash"); void line4.offsetWidth; line4.classList.add("lcd-flash");
+
+  line1.textContent = modo === "bruto" ? "BRUTO → LIQUIDO" : "LIQUIDO → BRUTO";
+  line2.textContent = "RET " + (tasa * 100).toFixed(1) + "%";
+  line3.textContent = "BRUTO " + Math.round(bruto).toLocaleString("es-CL");
+  line4.textContent = "LIQ " + Math.round(liquido).toLocaleString("es-CL");
+}
+
+function copiar() {
+  const text = [line1.textContent, line2.textContent, line3.textContent, line4.textContent].join("\n");
+  navigator.clipboard.writeText(text);
+  alert("Resultado copiado");
+}
+
+document.addEventListener("keydown", function(e){
+  const k = e.key;
+  if(/^[0-9]$/.test(k)){ agrega(k); e.preventDefault(); return; }
+  if(k==="." || k===","){ agrega("."); e.preventDefault(); return; }
+  if(k==="Enter"){ calcularHonorarios(); e.preventDefault(); return; }
+  if(k==="Escape"){ clearAll(); e.preventDefault(); return; }
+  if(k==="Backspace"){ backspace(); e.preventDefault(); return; }
+  if(k==="-"){ toggleSign(); e.preventDefault(); return; }
+});
+
+document.querySelectorAll("button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    btn.classList.remove("pressed"); void btn.offsetWidth; btn.classList.add("pressed");
+  });
+});
+
+actualizar();
+</script>
+
+</body>
+</html>
+
 <body>
 <header>
   <div class="container nav">
