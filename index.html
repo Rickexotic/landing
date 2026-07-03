@@ -1,973 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>46&2 Consulting</title>
-
-<style>
-
-:root{
-
-    --bg:#ffffff;
-    --card:#ffffff;
-    --text:#232323;
-    --muted:#777777;
-    --border:#ececec;
-
-    --dark:#1f2428;
-}
-
-[data-theme="dark"]{
-
-    --bg:#121417;
-    --card:#1b1f24;
-    --text:#f4f4f4;
-    --muted:#b5b5b5;
-    --border:#2d3238;
-
-}
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-html{
-    scroll-behavior:smooth;
-    background:var(--bg);
-    color:var(--text);
-    transition:background 0.3s ease, color 0.3s ease;
-}
-
-body{
-    font-family:Aptos, "Segoe UI", sans-serif;
-    color:var(--text);
-    line-height:1.7;
-    background:var(--bg);
-    transition:background 0.3s ease;
-}
-
-.container{
-    width:92%;
-    max-width:1280px;
-    margin:auto;
-}
-
-img{
-    display:block;
-    width:100%;
-}
-
-a{
-    text-decoration:none;
-}
-
-section{
-    padding:120px 0;
-}
-
-header{
-    position:fixed;
-    top:0;
-    width:100%;
-    background:var(--bg);
-    backdrop-filter:blur(10px);
-    z-index:1000;
-    transition:background 0.3s ease, border-color 0.3s ease;
-}
-
-.nav{
-    height:85px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-}
-
-.brand{
-    display:flex;
-    align-items:center;
-    gap:15px;
-}
-
-.brand img{
-    height:50px;
-    width:auto;
-}
-
-.brand-name{
-    font-size:24px;
-    font-weight:700;
-}
-
-.nav-right{
-    display:flex;
-    align-items:center;
-    gap:16px;
-}
-
-.menu{
-    display:flex;
-    gap:35px;
-}
-
-.menu-item{
-    position:relative;
-}
-
-.menu-item > a{
-    display:flex;
-    align-items:center;
-    gap:6px;
-    color:var(--text);
-    font-size:15px;
-}
-
-.dropdown{
-    position:absolute;
-    top:100%;
-    left:0;
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:4px;
-    min-width:200px;
-    max-height:0;
-    overflow:hidden;
-    transition:max-height 0.3s ease;
-    z-index:999;
-    box-shadow:0 4px 12px rgba(0,0,0,0.1);
-}
-
-.menu-item:hover .dropdown{
-    max-height:300px;
-}
-
-.dropdown a{
-    display:block;
-    padding:12px 20px;
-    color:var(--text);
-    font-size:14px;
-    transition:background 0.2s;
-    border-bottom:1px solid var(--border);
-}
-
-.dropdown a:last-child{
-    border-bottom:none;
-}
-
-.dropdown a:hover{
-    background:var(--border);
-}
-
-.mobile-toggle{
-    display:none;
-    font-size:28px;
-    cursor:pointer;
-    color:var(--text);
-    background:none;
-    border:none;
-    padding:0;
-}
-
-@media(max-width:991px){
-
-    .mobile-toggle{
-        display:block;
-    }
-
-    .menu{
-        position:absolute;
-        top:85px;
-        left:0;
-        width:100%;
-        background:var(--bg);
-
-        display:flex;
-        flex-direction:column;
-
-        max-height:0;
-        overflow:hidden;
-
-        transition:max-height .3s ease;
-    }
-
-    .menu.active{
-        max-height:600px;
-    }
-
-    .menu a{
-        padding:18px 30px;
-    }
-
-    .dropdown{
-        position:static;
-        border:none;
-        background:transparent;
-        box-shadow:none;
-        max-height:0;
-    }
-
-    .menu-item:hover .dropdown{
-        max-height:300px;
-    }
-
-    .dropdown a{
-        padding:12px 50px;
-        border-bottom:none;
-    }
-
-    .dropdown a:hover{
-        background:var(--border);
-    }
-
-    .nav-right{
-        gap:8px;
-    }
-
-}
-    
-.menu a{
-    color:var(--text);
-    font-size:15px;
-}
-
-.hero{
-    position:relative;
-    min-height:calc(100vh - 85px);
-    padding:0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-
-.hero-bg{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    object-position:70% center;
-    object-fit:cover;
-    mix-blend-mode:multiply;
-    opacity:0.85;
-}
-
-[data-theme="dark"] .hero-bg{
-    mix-blend-mode:multiply;
-    opacity:0.85;
-    filter:none;
-}
-
-.hero::before{
-    content:'';
-    position:absolute;
-    inset:0;
-    background:linear-gradient(
-      to right,
-      rgba(0,0,0,.60),
-      rgba(0,0,0,.10)
-    );
-    z-index:1;
-}
-
-[data-theme="dark"] .hero::before{
-    background:linear-gradient(
-      to right,
-      rgba(0,0,0,.60),
-      rgba(0,0,0,.10)
-    );
-}
-
-.hero-content{
-    position:relative;
-    z-index:2;
-    color:white;
-    max-width:700px;
-}
-
-.hero-content h1{
-    font-size:78px;
-    line-height:1.0;
-    margin-bottom:25px;
-}
-
-.hero-content p{
-    font-size:22px;
-    color:rgba(255,255,255,.85);
-    margin-bottom:35px;
-}
-
-.btn{
-    display:inline-block;
-    padding:15px 30px;
-    border-radius:4px;
-    transition:.3s;
-    border:none;
-    cursor:pointer;
-    font-family:inherit;
-}
-
-.btn-primary{
-    background:white;
-    color:var(--dark);
-}
-
-.btn-primary:hover{
-    transform:translateY(-2px);
-    box-shadow:0 4px 12px rgba(0,0,0,0.15);
-}
-
-.btn-secondary{
-    border:1px solid white;
-    color:white;
-    margin-left:10px;
-}
-
-.btn-secondary:hover{
-    background:rgba(255,255,255,0.1);
-}
-
-.section-title{
-    text-align:center;
-    margin-bottom:70px;
-}
-
-.section-title h2{
-    font-size:46px;
-    margin-bottom:15px;
-}
-
-.section-title p{
-    color:var(--muted);
-}
-
-.services-grid{
-
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:40px;
-}
-
-.service-card{
-    overflow:hidden;
-    background:var(--card);
-    transition:.3s;
-    cursor:pointer;
-}
-
-.service-card:hover{
-    transform:translateY(-5px);
-}
-
-.service-card img{
-    height:350px;
-    object-fit:cover;
-}
-
-.service-content{
-    padding:30px;
-}
-
-.service-content h3{
-    font-size:28px;
-    margin-bottom:15px;
-}
-
-.service-content p{
-    color:var(--muted);
-}
-
-.about{
-    background:var(--bg);
-}
-
-.about-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:80px;
-    align-items:center;
-}
-
-.about h2{
-    font-size:48px;
-    margin-bottom:20px;
-}
-
-.about p{
-    color:var(--muted);
-}
-
-.cta{
-    text-align:center;
-    padding:160px 0;
-}
-
-.cta h2{
-    font-size:60px;
-    margin-bottom:25px;
-}
-
-footer{
-    background:var(--dark);
-    color:white;
-    padding:80px 0;
-}
-
-.footer-grid{
-    display:grid;
-    grid-template-columns:2fr 1fr 1fr;
-    gap:50px;
-}
-
-.footer-grid a{
-    display:block;
-    color:#aaa;
-    margin-bottom:10px;
-}
-
-.footer-grid p{
-    color:#aaa;
-}
-
-.theme-toggle{
-    width:42px;
-    height:42px;
-
-    border:none;
-    border-radius:50%;
-
-    background:transparent;
-
-    cursor:pointer;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    color:var(--text);
-    transition:transform 0.3s ease;
-}
-
-.theme-toggle:hover{
-    transform:scale(1.1);
-}
-
-.theme-toggle svg{
-    width:22px;
-    height:22px;
-    stroke-linecap:round;
-    stroke-linejoin:round;
-}
-
-#sunIcon{
-    display:none;
-}
-
-[data-theme="dark"] #moonIcon{
-    display:none;
-}
-
-[data-theme="dark"] #sunIcon{
-    display:block;
-}
-
-.scroll-to-top{
-    position:fixed;
-    bottom:30px;
-    right:30px;
-    width:50px;
-    height:50px;
-    background:var(--dark);
-    color:white;
-    border:none;
-    border-radius:50%;
-    cursor:pointer;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    z-index:999;
-    transition:all 0.3s ease;
-    box-shadow:0 4px 12px rgba(0,0,0,0.15);
-}
-
-.scroll-to-top:hover{
-    transform:translateY(-3px);
-    box-shadow:0 6px 16px rgba(0,0,0,0.25);
-}
-
-.scroll-to-top.show{
-    display:flex;
-}
-
-.scroll-to-top svg{
-    width:24px;
-    height:24px;
-    stroke-linecap:round;
-    stroke-linejoin:round;
-}
-
-[data-theme="dark"] .scroll-to-top{
-    background:white;
-    color:var(--dark);
-}
-
-.assistant-button{
-    position:fixed;
-    right:30px;
-    bottom:95px;
-    width:64px;
-    height:64px;
-    border:none;
-    border-radius:50%;
-    padding:0;
-    background:transparent;
-    cursor:pointer;
-    z-index:1001;
-    box-shadow:0 6px 18px rgba(0,0,0,0.2);
-    transition:transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.assistant-button:hover{
-    transform:translateY(-2px) scale(1.03);
-    box-shadow:0 10px 24px rgba(0,0,0,0.25);
-}
-
-.assistant-button img{
-    width:100%;
-    height:100%;
-    border-radius:50%;
-    object-fit:cover;
-}
-
-@media(max-width:991px){
-
-    .hero{
-        min-height:auto;
-        padding:160px 0 100px;
-        align-items:stretch;
-    }
-
-    .hero-content{
-        display:flex;
-        flex-direction:column;
-        justify-content:center;
-        align-items:flex-start;
-    }
-
-    .hero-content h1{
-        font-size:42px;
-        line-height:1.2;
-    }
-
-    .hero-content p{
-        font-size:16px;
-        margin-bottom:25px;
-    }
-
-    .btn-secondary{
-        display:block;
-        margin-left:0;
-        margin-top:10px;
-        width:fit-content;
-    }
-
-    .hero-bg{
-        object-position:center;
-    }
-
-    .services-grid,
-    .about-grid,
-    .footer-grid{
-        grid-template-columns:1fr;
-    }
-
-    .menu{
-        gap:15px;
-        flex-wrap:wrap;
-    }
-
-    .cta h2{
-        font-size:36px;
-    }
-
-    .about h2{
-        font-size:32px;
-    }
-
-    .scroll-to-top{
-        bottom:20px;
-        right:20px;
-        width:45px;
-        height:45px;
-    }
-
-    .assistant-button{
-        right:20px;
-        bottom:75px;
-        width:56px;
-        height:56px;
-    }
-
-}
-
-</style>
-
+<link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-
 <header>
+  <div class="container nav">
+    <div class="brand">
+      <img src="logo3.png" alt="46&2 Consulting Logo">
+      <div class="brand-name">46&2</div>
+    </div>
 
-<div class="container nav">
+    <nav class="menu" id="menu" aria-label="Primary navigation">
+      <a href="#home">Home</a>
 
-<div class="brand">
-<img src="logo3.png" alt="46&2 Consulting Logo">
-<div class="brand-name">46&2</div>
-</div>
-
-<nav class="menu" id="menu">
-    <a href="#home">Home</a>
-    <div class="menu-item">
-        <a href="#services">Services <span>▼</span></a>
-        <div class="dropdown">
-            <a href="corporate-finance.html">Corporate Finance</a>
-            <a href="#ma-advisory">M&A Advisory</a>
-            <a href="#capital-raising">Capital Raising</a>
-            <a href="#wealth-planning">Wealth Planning</a>
+      <div class="menu-item">
+        <button class="menu-link dropdown-trigger" type="button" aria-expanded="false" aria-controls="servicesDropdown">
+          Services <span aria-hidden="true">▼</span>
+        </button>
+        <div class="dropdown" id="servicesDropdown">
+          <a href="#corporate-finance">Corporate Finance</a>
+          <a href="#ma-advisory">M&A Advisory</a>
+          <a href="#capital-raising">Capital Raising</a>
+          <a href="#wealth-planning">Wealth Planning</a>
         </div>
-    </div>
-    <a href="#about">About</a>
-    <a href="#contact">Contact</a>
-</nav>
+      </div>
 
-<div class="nav-right">
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
 
-    <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">
-
-        <!-- Moon -->
-        <svg id="moonIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    <div class="nav-right">
+      <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme" aria-pressed="false">
+        <svg id="moonIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
         </svg>
-
-        <!-- Sun -->
-        <svg id="sunIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="5"></circle>
-            <line x1="12" y1="1" x2="12" y2="3"></line>
-            <line x1="12" y1="21" x2="12" y2="23"></line>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-            <line x1="1" y1="12" x2="3" y2="12"></line>
-            <line x1="21" y1="12" x2="23" y2="12"></line>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        <svg id="sunIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
         </svg>
+      </button>
 
-    </button>
-
-    <div class="mobile-toggle" id="mobileToggle">
+      <button id="mobileToggle" class="mobile-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="menu">
         ☰
+      </button>
     </div>
-
-</div>
-
-</div>
-
+  </div>
 </header>
 
-<section class="hero" id="home">
-
-<img src="hero.png" class="hero-bg" alt="Hero">
-
-<div class="container hero-content">
-
-<h1>
-Navigating Complexity.<br>
-Creating Financial Advantage.
-</h1>
-
-<p>
-46&2 Consulting helps organizations transform
-financial complexity into strategic growth,
-capital efficiency and long‑term value creation.
-</p>
-
-<a href="#contact" class="btn btn-primary">
-Schedule Consultation
-</a>
-
-<a href="#services" class="btn btn-secondary">
-Explore Services
-</a>
-
-</div>
-
-</section>
-
-<section id="services">
-
-<div class="container">
-
-<div class="section-title">
-
-<h2>Our Services</h2>
-
-<p>
-Strategic financial advisory solutions designed
-to accelerate growth and strengthen value creation.
-</p>
-
-</div>
-
-<div class="services-grid">
-
-<div class="service-card">
-
-<img src="notebook.jpg" alt="Corporate Finance">
-
-<div class="service-content">
-
-<h3>Corporate Finance</h3>
-
-<p>
-Strategic financial planning, valuation,
-forecasting, budgeting, performance
-analysis and capital allocation.
-</p>
-
-</div>
-
-</div>
-
-<div class="service-card">
-
-<img src="MA.jpg" alt="M&A Advisory">
-
-<div class="service-content">
-
-<h3>M&A Advisory</h3>
-
-<p>
-Acquisitions, divestitures,
-due diligence, negotiations,
-transaction execution and integration.
-</p>
-
-</div>
-
-</div>
-
-<div class="service-card">
-
-<img src="capitalraising.jpg" alt="Capital Raising">
-
-<div class="service-content">
-
-<h3>Capital Raising</h3>
-
-<p>
-Debt and equity financing,
-investor readiness, fundraising strategy
-and transaction support.
-</p>
-
-</div>
-
-</div>
-
-<div class="service-card">
-
-<img src="chanchito.jpg" alt="Wealth Planning">
-
-<div class="service-content">
-
-<h3>Wealth Planning</h3>
-
-<p>
-Long‑term wealth preservation,
-retirement planning,
-succession planning and legacy strategies.
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<section class="about" id="about">
-
-<div class="container about-grid">
-
-<div>
-
-<h2>
-Independent Financial Advice For Meaningful Growth
-</h2>
-
-<p>
-We partner with investors,
-entrepreneurs and organizations to
-solve complex financial challenges,
-unlock capital opportunities and create
-sustainable long‑term value.
-</p>
-
-</div>
-
-<div>
-
-<img src="inicio.jpg" alt="About">
-
-</div>
-
-</div>
-
-</section>
-
-<section class="cta">
-
-<div class="container">
-
-<h2>
-Ready to Strengthen Your Financial Future?
-</h2>
-
-<a href="#contact" class="btn btn-primary">
-Book a Strategy Session
-</a>
-
-</div>
-
-</section>
-
-<footer id="contact">
-
-<div class="container footer-grid">
-
-<div>
-
-<h3>46&2 Consulting</h3>
-
-<p>
-Strategic financial consulting for
-companies, entrepreneurs and investors.
-</p>
-
-</div>
-
-<div>
-
-<h3>Services</h3>
-
-<a href="corporate-finance.html">Corporate Finance</a>
-<a href="#">M&A Advisory</a>
-<a href="#">Capital Raising</a>
-<a href="#">Wealth Planning</a>
-
-</div>
-
-<div>
-
-<h3>Contact</h3>
-
-<p>contact@46and2consulting.com</p>
-
-</div>
-
-</div>
-
+<main>
+  <section class="hero" id="home">
+    <img src="hero.png" class="hero-bg" alt="Hero background">
+    <div class="container hero-content">
+      <h1>Navigating Complexity.<br>Creating Financial Advantage.</h1>
+      <p>46&2 Consulting helps organizations transform financial complexity into strategic growth, capital efficiency and long-term value creation.</p>
+      <a href="#contact" class="btn btn-primary">Schedule Consultation</a>
+      <a href="#services" class="btn btn-secondary">Explore Services</a>
+    </div>
+  </section>
+
+  <section id="services" class="anchor-section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Our Services</h2>
+        <p>Strategic financial advisory solutions designed to accelerate growth and strengthen value creation.</p>
+      </div>
+
+      <div class="services-grid">
+        <a class="service-card" id="corporate-finance" href="corporate-finance.html">
+          <img src="notebook.jpg" alt="Corporate Finance">
+          <div class="service-content">
+            <h3>Corporate Finance</h3>
+            <p>Strategic financial planning, valuation, forecasting, budgeting, performance analysis and capital allocation.</p>
+          </div>
+        </a>
+
+        <section class="service-card anchor-section" id="ma-advisory" tabindex="-1">
+          <img src="MA.jpg" alt="M&A Advisory">
+          <div class="service-content">
+            <h3>M&A Advisory</h3>
+            <p>Acquisitions, divestitures, due diligence, negotiations, transaction execution and integration.</p>
+          </div>
+        </section>
+
+        <section class="service-card anchor-section" id="capital-raising" tabindex="-1">
+          <img src="capitalraising.jpg" alt="Capital Raising">
+          <div class="service-content">
+            <h3>Capital Raising</h3>
+            <p>Debt and equity financing, investor readiness, fundraising strategy and transaction support.</p>
+          </div>
+        </section>
+
+        <section class="service-card anchor-section" id="wealth-planning" tabindex="-1">
+          <img src="chanchito.jpg" alt="Wealth Planning">
+          <div class="service-content">
+            <h3>Wealth Planning</h3>
+            <p>Long-term wealth preservation, retirement planning, succession planning and legacy strategies.</p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section class="about anchor-section" id="about" tabindex="-1">
+    <div class="container about-grid">
+      <div>
+        <h2>Independent Financial Advice For Meaningful Growth</h2>
+        <p>We partner with investors, entrepreneurs and organizations to solve complex financial challenges, unlock capital opportunities and create sustainable long-term value.</p>
+      </div>
+      <div>
+        <img src="inicio.jpg" alt="About 46&2 Consulting">
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="container">
+      <h2>Ready to Strengthen Your Financial Future?</h2>
+      <a href="mailto:contact@46and2consulting.com?subject=Strategy%20Session%20Request" class="btn btn-primary">Book a Strategy Session</a>
+    </div>
+  </section>
+
+  <section class="contact-form-section anchor-section" id="contact" tabindex="-1">
+    <div class="container contact-grid">
+      <div>
+        <div class="section-title section-title-left">
+          <h2>Contact Us</h2>
+          <p>Tell us about your goals and we’ll get back to you.</p>
+        </div>
+        <p class="contact-copy">Email: <a href="mailto:contact@46and2consulting.com">contact@46and2consulting.com</a></p>
+        <p class="contact-copy">Or use the form to request a consultation.</p>
+      </div>
+
+      <form class="contact-form" action="mailto:contact@46and2consulting.com" method="post" enctype="text/plain">
+        <label>
+          Name
+          <input type="text" name="name" autocomplete="name" required>
+        </label>
+        <label>
+          Email
+          <input type="email" name="email" autocomplete="email" required>
+        </label>
+        <label>
+          Service of interest
+          <select name="service" required>
+            <option value="" selected disabled>Select a service</option>
+            <option>Corporate Finance</option>
+            <option>M&A Advisory</option>
+            <option>Capital Raising</option>
+            <option>Wealth Planning</option>
+          </select>
+        </label>
+        <label>
+          Message
+          <textarea name="message" rows="5" required></textarea>
+        </label>
+        <button type="submit" class="btn btn-primary">Send Inquiry</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container footer-grid">
+    <div>
+      <h3>46&2 Consulting</h3>
+      <p>Strategic financial consulting for companies, entrepreneurs and investors.</p>
+    </div>
+    <div>
+      <h3>Services</h3>
+      <a href="#corporate-finance">Corporate Finance</a>
+      <a href="#ma-advisory">M&A Advisory</a>
+      <a href="#capital-raising">Capital Raising</a>
+      <a href="#wealth-planning">Wealth Planning</a>
+    </div>
+    <div>
+      <h3>Contact</h3>
+      <p>contact@46and2consulting.com</p>
+    </div>
+  </div>
 </footer>
 
-<button id="assistantButton" class="assistant-button" aria-label="Open assistant">
-    <img src="Designer.png" alt="Assistant">
+<button id="assistantButton" class="assistant-button" type="button" aria-label="Open assistant">
+  <img src="Designer.png" alt="Assistant icon">
 </button>
 
-<button id="scrollToTop" class="scroll-to-top" aria-label="Scroll to top">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="18 15 12 9 6 15"></polyline>
-    </svg>
+<button id="scrollToTop" class="scroll-to-top" type="button" aria-label="Scroll to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+    <polyline points="18 15 12 9 6 15"></polyline>
+  </svg>
 </button>
 
-<script>
-
-const mobileToggle = document.getElementById("mobileToggle");
-const menu = document.getElementById("menu");
-
-mobileToggle.addEventListener("click", () => {
-    menu.classList.toggle("active");
-});
-
-document.querySelectorAll(".menu a").forEach(link => {
-    link.addEventListener("click", () => {
-        menu.classList.remove("active");
-    });
-});
-
-</script>
-
-<script>
-
-const themeToggle = document.getElementById('themeToggle');
-const html = document.documentElement;
-
-// Check for saved theme preference or default to light mode
-const currentTheme = localStorage.getItem('theme') || 'light';
-
-if(currentTheme === 'dark'){
-    html.setAttribute('data-theme', 'dark');
-}
-
-// Theme toggle click handler
-themeToggle.addEventListener('click', () => {
-    const theme = html.getAttribute('data-theme');
-    
-    if(theme === 'dark'){
-        html.removeAttribute('data-theme');
-        localStorage.setItem('theme', 'light');
-    } else {
-        html.setAttribute('data-theme', 'dark');
-        localStorage.setItem('theme', 'dark');
-    }
-});
-
-// Respect system preference if no saved theme
-if(!localStorage.getItem('theme')){
-    if(window.matchMedia('(prefers-color-scheme: dark)').matches){
-        html.setAttribute('data-theme', 'dark');
-    }
-}
-
-</script>
-
-<script>
-
-const scrollToTopBtn = document.getElementById("scrollToTop");
-
-// Show/hide button based on scroll position
-window.addEventListener("scroll", () => {
-    if(window.scrollY > 300){
-        scrollToTopBtn.classList.add("show");
-    } else {
-        scrollToTopBtn.classList.remove("show");
-    }
-});
-
-// Scroll to top on button click
-scrollToTopBtn.addEventListener("click", () => {
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-});
-
-</script>
-    
+<script src="script.js" defer></script>
 </body>
 </html>
