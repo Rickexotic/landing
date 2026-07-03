@@ -50,20 +50,25 @@ document.addEventListener('keydown', e => {
   }
 });
 
-// Scrollspy — highlight active nav link based on scroll position
-const spySections = ['home', 'services', 'about', 'contact']
+// Scrollspy — highlight active nav link based on scroll position.
+// HEADER_OFFSET gives a small buffer past the fixed header (85 px) so a section
+// is marked active only after it has scrolled meaningfully into view.
+const HEADER_OFFSET = 120;
+const scrollSpySections = ['home', 'services', 'about', 'contact']
   .map(id => document.getElementById(id))
   .filter(Boolean);
 
 function updateScrollSpy() {
-  if (!spySections.length) return;
-  const scrollY = window.scrollY + 120;
-  let activeId = spySections[0].id;
-  spySections.forEach(section => {
+  if (!scrollSpySections.length) return;
+  const scrollY = window.scrollY + HEADER_OFFSET;
+  let activeId = scrollSpySections[0].id;
+  scrollSpySections.forEach(section => {
     if (section.offsetTop <= scrollY) activeId = section.id;
   });
   document.querySelectorAll('.menu > a, .menu-item > .menu-link').forEach(link => {
     const href = link.getAttribute('href') || '';
+    // The "Services" nav item is a <button> (dropdown trigger) rather than an <a>,
+    // so it has no href; match it by its class when the services section is active.
     const isActive = href === `#${activeId}` ||
       (activeId === 'services' && link.classList.contains('dropdown-trigger'));
     link.classList.toggle('active', isActive);
