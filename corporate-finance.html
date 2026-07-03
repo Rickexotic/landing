@@ -5,6 +5,48 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Corporate Finance | 46&2 Consulting</title>
 <link rel="stylesheet" href="styles.css">
+<style>
+.hp12c-wrapper{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:2rem 0;
+}
+.hp12c{
+  width:470px;
+  max-width:100%;
+  background:linear-gradient(180deg,#c1ad80 0%,#ab9464 100%);
+  border-radius:20px;
+  padding:20px;
+  border:1px solid rgba(255,255,255,.2);
+  box-shadow:0 35px 60px rgba(0,0,0,.55),0 10px 20px rgba(0,0,0,.35),inset 0 2px 2px rgba(255,255,255,.35),inset 0 -3px 8px rgba(0,0,0,.25);
+}
+.hp12c .header{display:flex;justify-content:space-between;margin-bottom:15px;}
+.hp12c .logo{font-size:34px;font-weight:bold;color:#111;}
+.hp12c .logo span{color:#0055a8;}
+.hp12c .model{text-align:right;font-size:12px;font-weight:bold;color:#333;}
+.hp12c .display{background:linear-gradient(180deg,#d8e4bc 0%,#bac592 100%);border:4px solid #666;border-radius:8px;padding:12px;box-shadow:inset 0 3px 8px rgba(0,0,0,.35),inset 0 -3px 2px rgba(255,255,255,.25),0 2px 4px rgba(0,0,0,.3);margin-bottom:15px;}
+.hp12c .screen{font-family:Courier New,monospace;font-size:36px;text-align:right;min-height:46px;color:#222;font-weight:bold;}
+.hp12c .config{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px;}
+.hp12c label{display:block;font-size:12px;margin-bottom:5px;font-weight:bold;color:#111;}
+.hp12c input,.hp12c select{width:100%;padding:8px;border:none;border-radius:5px;}
+.hp12c .keyboard{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.hp12c button{height:56px;border:none;border-radius:8px;cursor:pointer;position:relative;overflow:hidden;font-size:18px;font-weight:bold;transition:transform .08s ease,box-shadow .08s ease,filter .15s ease;}
+.hp12c button:hover{transform:translateY(-2px);filter:brightness(1.08);} 
+.hp12c button:active{transform:translateY(4px) scale(.97);} 
+.hp12c button::before{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);transition:left .4s ease;}
+.hp12c button:hover::before{left:130%;}
+.hp12c .black{color:white;background:linear-gradient(180deg,#3a3a3a,#171717);box-shadow:0 5px 0 #0b0b0b,0 10px 12px rgba(0,0,0,.35);} 
+.hp12c .blue{color:white;background:linear-gradient(180deg,#1670d4,#004b96);box-shadow:0 5px 0 #00356c,0 10px 12px rgba(0,0,0,.35);} 
+.hp12c .orange{color:white;background:linear-gradient(180deg,#ee8f34,#c05d05);box-shadow:0 5px 0 #8d4200,0 10px 12px rgba(0,0,0,.35);} 
+.hp12c .gray{color:#222;background:linear-gradient(180deg,#f5f5f5,#d0d0d0);box-shadow:0 5px 0 #999,0 10px 12px rgba(0,0,0,.25);} 
+.hp12c .result{margin-top:15px;background:rgba(255,255,255,.25);border-radius:8px;padding:12px;color:#111;line-height:1.6;font-weight:bold;}
+.hp12c .help{margin-top:10px;font-size:12px;color:#222;}
+@keyframes hpClick{0%{transform:translateY(0);}50%{transform:translateY(5px);}100%{transform:translateY(0);}}
+.hp12c .pressed{animation:hpClick .12s ease;}
+@keyframes lcdFlash{0%{filter:brightness(1);}50%{filter:brightness(1.4);}100%{filter:brightness(1);}}
+.hp12c .lcd-flash{animation:lcdFlash .25s ease;}
+</style>
 </head>
 <body>
 <header>
@@ -59,40 +101,114 @@
 </header>
 
 <main class="container" style="padding: 4rem 0;">
-  <section aria-labelledby="corporate-finance-heading">
-    <h1 id="corporate-finance-heading">Corporate Finance</h1>
-    <p>
-      We help founders, executives, and boards make confident financial decisions that support sustainable growth,
-      strong cash flow, and long-term enterprise value.
-    </p>
+  <div class="hp12c-wrapper">
+    <div class="hp12c">
+      <div class="header">
+        <div class="logo">HP <span>12C</span></div>
+        <div class="model">PLATINUM<br>HONORARIOS CHILE</div>
+      </div>
 
-    <h2>What We Deliver</h2>
-    <ul>
-      <li><strong>Financial Strategy:</strong> Capital structure design, cost of capital optimization, and balance sheet planning.</li>
-      <li><strong>Cash Flow Management:</strong> Forecasting, working capital improvements, and liquidity planning.</li>
-      <li><strong>Performance Planning:</strong> Budgeting, KPI design, and scenario analysis for strategic decision-making.</li>
-      <li><strong>Valuation Support:</strong> Business valuation frameworks for transactions, fundraising, and internal planning.</li>
-      <li><strong>Risk & Governance:</strong> Financial controls, reporting processes, and governance best practices.</li>
-    </ul>
+      <div class="display">
+        <div id="screen" class="screen">0</div>
+      </div>
 
-    <h2>Who We Work With</h2>
-    <p>
-      Our corporate finance advisory is tailored for growth-stage businesses, family-owned enterprises,
-      and established firms preparing for transformation, acquisition, or expansion.
-    </p>
+      <div class="config">
+        <div>
+          <label for="tipo">Modo</label>
+          <select id="tipo">
+            <option value="bruto">Bruto → Líquido</option>
+            <option value="liquido">Líquido → Bruto</option>
+          </select>
+        </div>
+        <div>
+          <label for="retencion">Retención (%)</label>
+          <input id="retencion" type="number" step="0.1" value="14.5">
+        </div>
+      </div>
 
-    <h2>Why 46&2 Consulting</h2>
-    <p>
-      We combine analytical rigor with practical execution support—turning complex financial data into clear,
-      actionable decisions for leadership teams.
-    </p>
+      <div class="keyboard">
+        <button class="orange" onclick="clearAll()">CLX</button>
+        <button class="orange" onclick="backspace()">←</button>
+        <button class="blue" onclick="toggleSign()">CHS</button>
+        <button class="blue" onclick="calcularHonorarios()">HON</button>
 
-    <p>
-      <a href="index.html#contact">Contact us</a> to discuss your corporate finance goals.
-    </p>
-  </section>
+        <button class="black" onclick="agrega('7')">7</button>
+        <button class="black" onclick="agrega('8')">8</button>
+        <button class="black" onclick="agrega('9')">9</button>
+        <button class="gray" onclick="agrega('000')">000</button>
+
+        <button class="black" onclick="agrega('4')">4</button>
+        <button class="black" onclick="agrega('5')">5</button>
+        <button class="black" onclick="agrega('6')">6</button>
+        <button class="gray" onclick="agrega('.')">.</button>
+
+        <button class="black" onclick="agrega('1')">1</button>
+        <button class="black" onclick="agrega('2')">2</button>
+        <button class="black" onclick="agrega('3')">3</button>
+        <button class="blue" onclick="calcularHonorarios()">=</button>
+
+        <button class="black" onclick="agrega('0')">0</button>
+        <button class="blue" onclick="copiar()">COPY</button>
+        <button class="blue" onclick="window.print()">PRINT</button>
+        <button class="orange" onclick="calcularHonorarios()">ENTER</button>
+      </div>
+
+      <div id="resultado" class="result">Ingrese un monto y presione HON o ENTER</div>
+      <div class="help">Teclado: 0-9 · . · Enter · Backspace · Esc · -</div>
+    </div>
+  </div>
 </main>
 
+<script>
+let valor = "";
+const screen = document.getElementById("screen");
+function actualizar(){ screen.textContent = valor === "" ? "0" : valor; }
+function agrega(tecla){
+  if(tecla === "."){
+    if(valor.includes(".")) return;
+    if(valor === ""){ valor = "0."; } else { valor += "."; }
+  } else { valor += tecla; }
+  actualizar();
+}
+function clearAll(){
+  valor = "";
+  actualizar();
+  document.getElementById("resultado").innerHTML = "Ingrese un monto y presione HON o ENTER";
+}
+function backspace(){ valor = valor.slice(0,-1); actualizar(); }
+function toggleSign(){ if(valor==="") return; valor = (Number(valor) * -1).toString(); actualizar(); }
+function moneda(v){ return new Intl.NumberFormat("es-CL",{style:"currency",currency:"CLP",maximumFractionDigits:0}).format(v); }
+function calcularHonorarios(){
+  const monto = Number(valor);
+  if(isNaN(monto) || monto <= 0){ document.getElementById("resultado").innerHTML = "Ingrese un monto válido"; return; }
+  const tasa = Number(document.getElementById("retencion").value) / 100;
+  const modo = document.getElementById("tipo").value;
+  let bruto, liquido, retenido;
+  if(modo==="bruto"){ bruto = monto; retenido = bruto * tasa; liquido = bruto - retenido; }
+  else { liquido = monto; bruto = liquido / (1 - tasa); retenido = bruto - liquido; }
+  screen.classList.remove("lcd-flash"); void screen.offsetWidth; screen.classList.add("lcd-flash");
+  screen.textContent = liquido.toLocaleString("es-CL");
+  document.getElementById("resultado").innerHTML = `<b>Resultado Honorarios</b><br><br>Bruto: ${moneda(bruto)}<br>Retención: ${moneda(retenido)} (${(tasa*100).toFixed(1)}%)<br>Líquido: ${moneda(liquido)}`;
+}
+function copiar(){ navigator.clipboard.writeText(document.getElementById("resultado").innerText); alert("Resultado copiado"); }
+document.addEventListener("keydown", function(e){
+  const k = e.key;
+  if(/^[0-9]$/.test(k)){ agrega(k); e.preventDefault(); return; }
+  if(k==="." || k===","){ agrega("."); e.preventDefault(); return; }
+  if(k==="Enter"){ calcularHonorarios(); e.preventDefault(); return; }
+  if(k==="Escape"){ clearAll(); e.preventDefault(); return; }
+  if(k==="Backspace"){ backspace(); e.preventDefault(); return; }
+  if(k==="-"){ toggleSign(); e.preventDefault(); return; }
+});
+document.querySelectorAll(".hp12c button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    btn.classList.remove("pressed");
+    void btn.offsetWidth;
+    btn.classList.add("pressed");
+  });
+});
+actualizar();
+</script>
 <script src="script.js" defer></script>
 </body>
 </html>
